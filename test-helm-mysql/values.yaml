@@ -1,0 +1,50 @@
+irbac:
+  enabled: true
+resources:
+  namespace: mysql
+  rbacName: mysql-resources
+hooks:
+  firstinstallPriority: pre-install
+  firstupgradePriority: pre-upgrade
+  lastinstallPriority: post-install
+  lastupgradePriority: post-upgrade
+imagepullCredentials:
+  secretName: jfrog
+  registry: gbsartifactory.edst.ibm.com
+  username: avaskum1@in.ibm.com
+  password: AKCp5fTQsVg37aYpW9QwuU7AUFJpWnuZahsuMnQpBJyAf5L6rrrqFZ4PgddYni1pwKxPZX7S8
+operator:
+  global: false
+  register_crd: true
+  image:
+    repository: gbsartifactory.edst.ibm.com/msil-internal/mysql-operator
+    tag: 0.3.0
+    pullPolicy: IfNotPresent
+innodb:
+  clusterName: mysql-innodb
+  replicas: 1   ### 3
+  image:
+    repository: gbsartifactory.edst.ibm.com/msil-internal/mysql-innodb
+    tag: 8.0.17
+  rootUser:
+    secretName: root-password
+    password: foobar
+  configMycnf: innodb-mycnf
+  claimName:
+    data: pvcdata
+    backup: pvcbackup
+  storageclass: my-storageclass   ### ibmc-file-retain-gold
+  pvAccess: ReadWriteMany
+  storagesize: 1Gi   ### 20Gi
+agent:
+  image:
+    repository: gbsartifactory.edst.ibm.com/msil-internal/mysql-agent
+    tag: latest
+router:
+  replicas: 1   ### 3
+  image:
+    repository: gbsartifactory.edst.ibm.com/msil-internal/mysql-router
+    tag: 8.0.19
+  serviceType: NodePort
+
+ 
