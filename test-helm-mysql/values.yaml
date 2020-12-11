@@ -1,7 +1,7 @@
 rbac:
   enabled: true
 resources:
-  namespace: mysql
+  namespace: newmysql
   rbacName: mysql-resources
 hooks:
   firstinstallPriority: pre-install
